@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import * as Notifications from 'expo-notifications';
+import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Task, TodoState } from '../types/todo';
 
@@ -25,18 +27,29 @@ export const useTodoStore = create<TodoState>((set, get) => ({
     const updatedTasks = [...get().tasks, newTask];
     set({ tasks: updatedTasks });
     await get().saveTasks();
+
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Tarefa Adicionada!',
+        body: `'${text}' foi adicionada à sua lista.`,
+      },
+      trigger: null, // Show immediately
+    });
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   },
 
   toggleTask: async (id: number) => {
     const updatedTasks = taskActions.toggleTaskCompletion(get().tasks, id);
     set({ tasks: updatedTasks });
     await get().saveTasks();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   },
 
   clearCompleted: async () => {
     const updatedTasks = taskActions.filterCompletedTasks(get().tasks);
     set({ tasks: updatedTasks });
     await get().saveTasks();
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   },
 
   loadTasks: async () => {

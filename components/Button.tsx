@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native';
 import { cn } from '../utils/utilities';
+import * as Haptics from 'expo-haptics';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -16,7 +17,13 @@ export function Button({ title, variant = 'primary', className, ...props }: Butt
   };
 
   return (
-    <TouchableOpacity className={cn(baseClasses, variantClasses[variant], className)} {...props}>
+    <TouchableOpacity
+      className={cn(baseClasses, variantClasses[variant], className)}
+      onPress={(e) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        props.onPress && props.onPress(e);
+      }}
+      {...props}>
       <Text className="text-center text-lg font-bold text-white">{title}</Text>
     </TouchableOpacity>
   );

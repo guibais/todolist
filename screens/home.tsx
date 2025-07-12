@@ -5,10 +5,16 @@ import { useNavigation } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
 import { Button } from '../components/Button';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 
 const TodoItem = ({ item, toggleTask }) => {
   return (
-    <TouchableOpacity onPress={() => toggleTask(item.id)} className="mb-3">
+    <TouchableOpacity
+      onPress={() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        toggleTask(item.id);
+      }}
+      className="mb-3">
       <BlurView
         intensity={item.completed ? 20 : 40}
         tint={item.completed ? 'light' : 'dark'}

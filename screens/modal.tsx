@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+import * as Haptics from 'expo-haptics';
 
 export default function Modal() {
   const [text, setText] = useState('');
@@ -14,6 +15,7 @@ export default function Modal() {
   const handleAddTask = async () => {
     if (text.trim()) {
       await addTask(text);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       navigation.goBack();
     }
   };
