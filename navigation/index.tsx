@@ -1,34 +1,25 @@
-import { createStaticNavigation, StaticParamList } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Home from '../screens/home';
 import Modal from '../screens/modal';
-import DrawerNavigator from './drawer-navigator';
 
-const Stack = createStackNavigator({
-  screens: {
-    DrawerNavigator: {
-      screen: DrawerNavigator,
-      options: {
-        headerShown: false,
-      },
-    },
-    Modal: {
-      screen: Modal,
-      options: {
-        presentation: 'modal',
-        headerLeft: () => null,
-      },
-    },
-  },
-});
+const Stack = createStackNavigator();
 
-type RootNavigatorParamList = StaticParamList<typeof Stack>;
-
-declare global {
-  namespace ReactNavigation {
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-    interface RootParamList extends RootNavigatorParamList {}
-  }
+function RootStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} options={{ title: 'Lista de Tarefas' }} />
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="Modal" component={Modal} options={{ title: 'Adicionar Tarefa' }} />
+      </Stack.Group>
+    </Stack.Navigator>
+  );
 }
 
-const Navigation = createStaticNavigation(Stack);
-export default Navigation;
+export default function Navigation() {
+  return (
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
+  );
+}
