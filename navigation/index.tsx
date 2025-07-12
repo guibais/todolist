@@ -8,7 +8,13 @@ const Stack = createStackNavigator();
 function RootStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{ title: 'Lista de Tarefas' }} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={Modal} options={{ title: 'Adicionar Tarefa' }} />
       </Stack.Group>
