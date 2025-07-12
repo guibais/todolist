@@ -1,9 +1,9 @@
-
 import React, { useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { TodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
+import { Button } from '../components/Button';
 
 export default function Home() {
   const { tasks, toggleTask, clearCompleted } = useContext(TodoContext);
@@ -34,18 +34,8 @@ export default function Home() {
           )}
         />
         <View className="mt-5">
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Modal')}
-            className="bg-purple-600 py-4 rounded-lg mb-3"
-          >
-            <Text className="text-white text-center text-lg font-bold">Adicionar Tarefa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={clearCompleted}
-            className="bg-red-500 py-4 rounded-lg"
-          >
-            <Text className="text-white text-center text-lg font-bold">Limpar Concluídas</Text>
-          </TouchableOpacity>
+          <Button title="Adicionar Tarefa" onPress={() => navigation.navigate('Modal')} />
+          <Button title="Limpar Concluídas" onPress={clearCompleted} variant="secondary" />
         </View>
       </View>
     </SafeAreaView>
