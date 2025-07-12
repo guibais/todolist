@@ -1,0 +1,27 @@
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { HeaderButton } from 'components/HeaderButton';
+import TabNavigator from './tab-navigator';
+import Home from '../screens/home';
+
+const Drawer = createDrawerNavigator({
+  screens: {
+    Home: {
+      screen: Home,
+      options: {
+        drawerIcon: ({ size, color }) => <Ionicons name="home-outline" size={size} color={color} />,
+      },
+    },
+    Tabs: {
+      screen: TabNavigator,
+      options: ({ navigation }) => ({
+        headerRight: () => <HeaderButton onPress={() => navigation.navigate('Modal')} />,
+        drawerIcon: ({ size, color }) => (
+          <MaterialIcons name="border-bottom" size={size} color={color} />
+        ),
+      }),
+    },
+  },
+});
+
+export default Drawer;
