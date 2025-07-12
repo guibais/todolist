@@ -1,6 +1,7 @@
 import './global.css';
 
 import 'react-native-gesture-handler';
+import 'react-native-reanimated';
 
 import { TodoProvider } from './store/TodoContext';
 import Navigation from './navigation';
