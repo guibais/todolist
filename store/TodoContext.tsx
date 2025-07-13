@@ -31,7 +31,7 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
       const updatedTasks = [...tasks, newTask];
       setTasks(updatedTasks);
       await saveTasksToStorage(updatedTasks);
-      sendTaskAddedNotification(text);
+      await sendTaskAddedNotification(text);
     },
     [tasks]
   );

@@ -6,30 +6,37 @@ import * as Notifications from 'expo-notifications';
 import { TodoProvider } from './store/TodoContext';
 import Navigation from './navigation';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
+import { requestNotificationPermissions } from './utils/notifications';
 
 export default function App() {
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-      shouldShowBanner: true,
-      shouldShowList: true,
-    }),
-  });
+  if (Platform.OS !== 'web') {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
+      }),
+    });
+  }
 
   async function registerForPushNotificationsAsync() {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+    const granted = await requestNotificationPermissions();
+
+    if (!granted) {
+      alert('Failed to get permission for notifications!');
       return;
     }
-    const token = await Notifications.getExpoPushTokenAsync();
-    console.log(token);
+
+    if (Platform.OS !== 'web') {
+      try {
+        const token = await Notifications.getExpoPushTokenAsync();
+        console.log('Push token:', token);
+      } catch (error) {
+        console.log('Error getting push token:', error);
+      }
+    }
   }
 
   useEffect(() => {

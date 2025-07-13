@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Task } from '../types/todo';
-import * as Notifications from 'expo-notifications';
+import { scheduleNotification } from '../utils/notifications';
 import * as Haptics from 'expo-haptics';
 
 export const STORAGE_KEY = '@todolist:tasks';
@@ -35,13 +35,10 @@ export const saveTasksToStorage = async (tasks: Task[]): Promise<void> => {
   }
 };
 
-export const sendTaskAddedNotification = (text: string) => {
-  Notifications.scheduleNotificationAsync({
-    content: {
-      title: 'Tarefa Adicionada!',
-      body: `'${text}' foi adicionada à sua lista.`,
-    },
-    trigger: null, // Show immediately
+export const sendTaskAddedNotification = async (text: string) => {
+  await scheduleNotification({
+    title: 'Tarefa Adicionada!',
+    body: `'${text}' foi adicionada à sua lista.`,
   });
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 };
