@@ -2,6 +2,11 @@
 
 Este é um aplicativo de lista de tarefas que criei, feito com React Native e Expo. Meu objetivo foi construir algo simples, elegante e que oferecesse uma experiência de uso bem fluida e moderna.
 
+## Mobile Preview
+
+![SimulatorScreenRecording-iPhone16Pro-2025-07-13at11 45 11-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/ec8ae6a5-3816-4ef2-b385-6b46c1c8abf3)
+
+
 ## ✨ Features
 
 - Adicionar, editar e remover tarefas.
@@ -24,10 +29,6 @@ Para construir este app, utilizei algumas tecnologias e bibliotecas que consider
 - **`@react-native-async-storage/async-storage`**: Uma solução simples e eficaz para guardar dados localmente no aparelho. É perfeita para armazenar o estado da lista de tarefas, garantindo que nada seja perdido quando o aplicativo é fechado.
 - **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código.
 - **`expo-notifications`**: Utilizado para gerenciar notificações push no aplicativo. **Importante**: Este recurso funciona apenas nas versões mobile (iOS e Android) e não está disponível na versão web.
-
-## 🌐 Live Demo
-
-Você pode conferir a versão em produção do aplicativo web aqui: [https://todolist-btz.pages.dev](https://todolist-btz.pages.dev)
 
 ## 🚀 Instalação
 
