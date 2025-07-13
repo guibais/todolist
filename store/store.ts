@@ -1,89 +1,55 @@
-import { create } from 'zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Task } from '../types/todo';
 import * as Notifications from 'expo-notifications';
 import * as Haptics from 'expo-haptics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Task, TodoState } from '../types/todo';
 
-const STORAGE_KEY = '@todolist:tasks';
+export const STORAGE_KEY = '@todolist:tasks';
 
-const taskActions = {
-  addTask: (text: string) => ({
-    id: Date.now(),
-    text,
-    completed: false,
-  }),
+export const createTask = (text: string): Task => ({
+  id: Date.now(),
+  text,
+  completed: false,
+});
 
-  toggleTaskCompletion: (tasks: Task[], id: number) =>
-    tasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)),
+export const toggleTaskCompletion = (tasks: Task[], id: number): Task[] =>
+  tasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task));
 
-  filterCompletedTasks: (tasks: Task[]) => tasks.filter((task) => !task.completed),
+export const filterCompletedTasks = (tasks: Task[]): Task[] =>
+  tasks.filter((task) => !task.completed);
+
+export const loadTasksFromStorage = async (): Promise<Task[]> => {
+  try {
+    const storedTasks = await AsyncStorage.getItem(STORAGE_KEY);
+    return storedTasks ? JSON.parse(storedTasks) : [];
+  } catch (error) {
+    console.error('Error loading tasks from storage:', error);
+    return [];
+  }
 };
 
-export const useTodoStore = create<TodoState>((set, get) => ({
-  tasks: [],
+export const saveTasksToStorage = async (tasks: Task[]): Promise<void> => {
+  try {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  } catch (error) {
+    console.error('Error saving tasks to storage:', error);
+  }
+};
 
-  addTask: async (text: string) => {
-    const newTask = taskActions.addTask(text);
-    const updatedTasks = [...get().tasks, newTask];
-    set({ tasks: updatedTasks });
-    await get().saveTasks();
+export const sendTaskAddedNotification = (text: string) => {
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title: 'Tarefa Adicionada!',
+      body: `'${text}' foi adicionada à sua lista.`,
+    },
+    trigger: null, // Show immediately
+  });
+  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+};
 
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: 'Tarefa Adicionada!',
-        body: `'${text}' foi adicionada à sua lista.`,
-      },
-      trigger: null,
-    });
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-  },
-
-  toggleTask: async (id: number) => {
-    const updatedTasks = taskActions.toggleTaskCompletion(get().tasks, id);
-    set({ tasks: updatedTasks });
-    await get().saveTasks();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: 'Tarefa Concluída!',
-        body: `'${get().tasks.find((task) => task.id === id)?.text}' foi concluída.`,
-      },
-      trigger: null,
-    });
-  },
-
-  clearCompleted: async () => {
-    const updatedTasks = taskActions.filterCompletedTasks(get().tasks);
-    set({ tasks: updatedTasks });
-    await get().saveTasks();
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: 'Tarefas Removidas!',
-        body: 'Todas as tarefas concluídas foram removidas.',
-      },
-      trigger: null,
-    });
-  },
-
-  loadTasks: async () => {
-    try {
-      const storedTasks = await AsyncStorage.getItem(STORAGE_KEY);
-      if (storedTasks) {
-        const tasks = JSON.parse(storedTasks);
-        set({ tasks });
-      }
-    } catch (error) {
-      console.error('Error loading tasks:', error);
-    }
-  },
-
-  saveTasks: async () => {
-    try {
-      const { tasks } = get();
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-    } catch (error) {
-      console.error('Error saving tasks:', error);
-    }
-  },
-}));
+export const triggerHapticFeedback = (type: Haptics.NotificationFeedbackType | Haptics.ImpactFeedbackStyle) => {
+  if (type === Haptics.NotificationFeedbackType.Success || type === Haptics.NotificationFeedbackType.Warning || type === Haptics.NotificationFeedbackType.Error) {
+    Haptics.notificationAsync(type);
+  } else {
+    Haptics.impactAsync(type);
+  }
+};
