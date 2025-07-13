@@ -65,7 +65,8 @@ export default function Modal() {
         <BlurView
           intensity={40}
           tint="dark"
-          style={{ borderRadius: 15, overflow: 'hidden', width: '100%' }}>
+          style={{ borderRadius: 15, overflow: 'hidden' }}
+          className="w-full md:max-w-md md:mx-auto">
           <View className="p-5">
             {loading ? (
               <View className="items-center justify-center py-10">

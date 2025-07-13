@@ -12,7 +12,7 @@ export type TodoState = {
   loadTasks: () => Promise<void>;
 };
 
-export type TodoContextType = {
+export interface TodoContextType extends TodoState {
   addTask: (text: string) => Promise<void>;
   toggleTask: (id: number) => Promise<void>;
   clearCompleted: () => Promise<void>;
