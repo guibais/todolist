@@ -1,30 +1,33 @@
 # 🚀 TodoList App
 
-Um aplicativo de lista de tarefas simples e elegante, construído com React Native e Expo, focado em uma experiência de usuário fluida e moderna.
+Este é um aplicativo de lista de tarefas que criei, feito com React Native e Expo. Meu objetivo foi construir algo simples, elegante e que oferecesse uma experiência de uso bem fluida e moderna.
 
 ## ✨ Features
 
 - Adicionar, editar e remover tarefas.
 - Marcar tarefas como concluídas.
+- **Histórico de estados**: Você pode desfazer e refazer ações, mantendo um controle do que foi feito.
 - Persistência de dados local.
 - Interface de usuário intuitiva e responsiva.
 
 ## 🛠️ Escolhas Técnicas
 
-Este projeto foi desenvolvido utilizando as seguintes tecnologias e bibliotecas, com as justificativas para suas escolhas:
+Para construir este app, utilizei algumas tecnologias e bibliotecas que considero muito eficientes. Veja o porquê de cada escolha:
 
--   **React Native & Expo**: A base do aplicativo. Expo simplifica o desenvolvimento React Native, abstraindo a complexidade de configurar ambientes nativos e permitindo um desenvolvimento rápido com recursos como "over-the-air updates" e fácil build para múltiplas plataformas (iOS, Android, Web).
--   **TypeScript**: Utilizado para tipagem estática, o TypeScript melhora a manutenibilidade do código, ajuda a prevenir erros em tempo de desenvolvimento e oferece uma melhor experiência para o desenvolvedor com autocompletar e refatoração.
--   **`@react-navigation`**: A biblioteca padrão e mais robusta para navegação em aplicativos React Native. Oferece uma API flexível para criar diferentes tipos de navegação (Stack, Tab, Drawer) e gerenciar o estado da navegação de forma eficiente.
--   **Zustand**: Um gerenciador de estado leve e performático. Foi escolhido por sua simplicidade, tamanho reduzido e API baseada em hooks, que facilita a integração com componentes React e evita "boilerplate" desnecessário.
--   **NativeWind (Tailwind CSS)**: Permite escrever estilos CSS diretamente no JSX, utilizando a sintaxe do Tailwind CSS. Isso acelera o desenvolvimento da UI, promove a consistência visual e facilita a manutenção dos estilos, eliminando a necessidade de folhas de estilo separadas ou `StyleSheet.create`.
--   **Moti & React Native Reanimated**: Bibliotecas poderosas para criar animações fluidas e de alta performance. `React Native Reanimated` executa animações na thread UI nativa, garantindo 60 FPS mesmo em dispositivos mais antigos, enquanto `Moti` oferece uma API declarativa e fácil de usar construída sobre o Reanimated.
--   **`@react-native-async-storage/async-storage`**: Uma solução simples e eficiente para persistir dados localmente no dispositivo. Ideal para armazenar o estado da lista de tarefas, garantindo que os dados não sejam perdidos ao fechar o aplicativo.
--   **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código. ESLint garante que o código siga padrões de estilo e evita erros comuns, enquanto Prettier formata o código automaticamente, garantindo consistência em todo o projeto.
+- **React Native & Expo**: São a base do aplicativo. O Expo facilita muito o desenvolvimento com React Native, tirando a complexidade de configurar ambientes nativos e permitindo um desenvolvimento super rápido. Com ele, consigo fazer atualizações "over-the-air" e gerar builds para iOS, Android e Web de forma bem tranquila.
+- **TypeScript**: Uso TypeScript para garantir a tipagem estática. Isso ajuda demais na manutenção do código, previne erros durante o desenvolvimento e melhora a experiência de quem está programando, com autocompletar e refatoração mais seguras.
+- **Bun**: Escolhi o Bun como gerenciador de pacotes e runtime por sua performance superior em comparação com o npm/yarn. Além da velocidade, o Bun se mostrou mais robusto para lidar com certas dependências, como o `moti`, que apresentava dificuldades de compatibilidade e versionamento com o npm, garantindo um ambiente de desenvolvimento mais estável.
+- **`@react-navigation`**: É a mais robusta e padrão para apps React Native, oferecendo uma API flexível para criar diferentes tipos de navegação (Stack, Tab, Drawer) e gerenciar o estado da navegação de forma eficiente.
+- **Zustand**: Um gerenciador de estado leve e com ótimo desempenho. Optei por ele pela sua simplicidade, tamanho reduzido e por ter uma API baseada em hooks, o que facilita a integração com os componentes React e evita aquele código repetitivo desnecessário. **Ele foi fundamental para implementar o histórico de estados da nossa lista de tarefas, permitindo desfazer e refazer ações de forma eficiente.**
+- **NativeWind (Tailwind CSS)**: Com ele, consigo escrever estilos CSS diretamente no JSX, usando a sintaxe do Tailwind CSS. Isso acelera o desenvolvimento da interface, ajuda a manter a consistência visual e torna a manutenção dos estilos muito mais fácil, sem precisar de arquivos CSS separados ou `StyleSheet.create`.
+- **Moti & React Native Reanimated**: Essas bibliotecas são incríveis para criar animações fluidas e de alta performance. O `React Native Reanimated` executa as animações diretamente na thread UI nativa, garantindo 60 FPS mesmo em celulares mais antigos. Já o `Moti` oferece uma API declarativa e fácil de usar, construída em cima do Reanimated.
+- **`@react-native-async-storage/async-storage`**: Uma solução simples e eficaz para guardar dados localmente no aparelho. É perfeita para armazenar o estado da lista de tarefas, garantindo que nada seja perdido quando o aplicativo é fechado.
+- **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código.
+- **`expo-notifications`**: Utilizado para gerenciar notificações push no aplicativo. **Importante**: Este recurso funciona apenas nas versões mobile (iOS e Android) e não está disponível na versão web.
 
 ## 🚀 Instalação
 
-Para rodar este projeto localmente, siga os passos:
+Para rodar este projeto no seu computador, siga estes passos:
 
 1.  **Clone o repositório:**
     ```bash
@@ -33,42 +36,29 @@ Para rodar este projeto localmente, siga os passos:
     ```
 2.  **Instale as dependências:**
     ```bash
-    npm install
+    // de preferência
+    bun install
     # ou
-    yarn install
+    npm install
     ```
 
 ## ▶️ Rodando o Aplicativo
 
-Após a instalação das dependências, você pode iniciar o aplicativo:
+Depois de instalar tudo, você pode iniciar o aplicativo:
 
--   **Para Android:**
-    ```bash
-    npm run android
-    ```
--   **Para iOS:**
-    ```bash
-    npm run ios
-    ```
--   **Para Web:**
-    ```bash
-    npm run web
-    ```
--   **Para iniciar o servidor de desenvolvimento (com opções para escolher a plataforma):**
-    ```bash
-    npm start
-    ```
-
-## 📜 Scripts Disponíveis
-
--   `npm start`: Inicia o servidor de desenvolvimento do Expo.
--   `npm run android`: Inicia o aplicativo no emulador/dispositivo Android.
--   `npm run ios`: Inicia o aplicativo no simulador/dispositivo iOS.
--   `npm run web`: Inicia o aplicativo no navegador web.
--   `npm run prebuild`: Prepara o projeto para builds nativos.
--   `npm run lint`: Executa o linter e o verificador de formatação.
--   `npm run format`: Corrige automaticamente problemas de lint e formatação.
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+- **Para Android:**
+  ```bash
+  bun run android
+  ```
+- **Para iOS:**
+  ```bash
+  bun run ios
+  ```
+- **Para Web:**
+  ```bash
+  bun run web
+  ```
+- **Para iniciar o servidor de desenvolvimento (você poderá escolher a plataforma):**
+  ```bash
+  bun start
+  ```
