@@ -6,7 +6,6 @@ Este é um aplicativo de lista de tarefas que criei, feito com React Native e Ex
 
 ![SimulatorScreenRecording-iPhone16Pro-2025-07-13at11 45 11-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/ec8ae6a5-3816-4ef2-b385-6b46c1c8abf3)
 
-
 ## ✨ Features
 
 - Adicionar, editar e remover tarefas.
@@ -24,9 +23,46 @@ Para construir este app, utilizei algumas tecnologias e bibliotecas que consider
 - **TypeScript**: Uso TypeScript para garantir a tipagem estática. Isso ajuda demais na manutenção do código, previne erros durante o desenvolvimento e melhora a experiência de quem está programando, com autocompletar e refatoração mais seguras.
 - **Bun**: Escolhi o Bun como gerenciador de pacotes e runtime por sua performance superior em comparação com o npm/yarn. Além da velocidade, o Bun se mostrou mais robusto para lidar com certas dependências, como o `moti`, que apresentava dificuldades de compatibilidade e versionamento com o npm, garantindo um ambiente de desenvolvimento mais estável.
 - **`@react-navigation`**: É a mais robusta e padrão para apps React Native, oferecendo uma API flexível para criar diferentes tipos de navegação (Stack, Tab, Drawer) e gerenciar o estado da navegação de forma eficiente.
-- **Zustand**: Um gerenciador de estado leve e com ótimo desempenho. Optei por ele pela sua simplicidade, tamanho reduzido e por ter uma API baseada em hooks, o que facilita a integração com os componentes React e evita aquele código repetitivo desnecessário. **Ele foi fundamental para implementar o histórico de estados da nossa lista de tarefas, permitindo desfazer e refazer ações de forma eficiente.**
+- **Zustand**: Para o gerenciamento de estado, escolhi o Zustand por sua simplicidade e performance. Diferente de outras bibliotecas, ele não envolve o aplicativo em um "provider", o que evita re-renderizações desnecessárias e melhora o desempenho geral. No nosso caso, o Zustand foi a escolha ideal para controlar o histórico de alterações (undo/redo). Com ele, conseguimos gerenciar o estado das tarefas de forma isolada e eficiente, garantindo que apenas os componentes que realmente precisam ser atualizados sejam re-renderizados. Isso resulta em uma experiência de usuário mais fluida e responsiva, especialmente ao lidar com um grande volume de tarefas, além da facilidade de uso.
 - **NativeWind (Tailwind CSS)**: Com ele, consigo escrever estilos CSS diretamente no JSX, usando a sintaxe do Tailwind CSS. Isso acelera o desenvolvimento da interface, ajuda a manter a consistência visual e torna a manutenção dos estilos muito mais fácil, sem precisar de arquivos CSS separados ou `StyleSheet.create`.
 - **Moti & React Native Reanimated**: Essas bibliotecas são incríveis para criar animações fluidas e de alta performance. O `React Native Reanimated` executa as animações diretamente na thread UI nativa, garantindo 60 FPS mesmo em celulares mais antigos. Já o `Moti` oferece uma API declarativa e fácil de usar, construída em cima do Reanimated.
+- **`@react-native-async-storage/async-storage`**: Uma solução simples e eficaz para guardar dados localmente no aparelho. É perfeita para armazenar o estado da lista de tarefas, garantindo que nada seja perdido quando o aplicativo é fechado.
+- **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código.
+- **`expo-notifications`**: Utilizado para gerenciar notificações push no aplicativo. **Importante**: Este recurso funciona apenas nas versões mobile (iOS e Android) e não está disponível na versão web.
+
+## 🤝 Convenções de Desenvolvimento
+
+Para manter o código organizado e o histórico de commits claro, utilizamos [Semantic Commits](https://www.conventionalcommits.org/en/v1.0.0/). Isso significa que cada commit segue um padrão específico (ex: `feat: adiciona nova funcionalidade`, `fix: corrige bug`), o que facilita a compreensão das mudanças e a geração automática de changelogs.
+
+## 🚀 Instalação
+
+Para rodar este projeto no seu computador, siga estes passos:
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/seu-usuario/todolist.git
+    cd todolist
+    ```
+2.  **Instale as dependências:**
+    ```bash
+    // de preferência
+    bun install
+    # ou
+    npm install
+    ```
+
+## ▶️ Rodando o Aplicativo
+
+Depois de instalar tudo, você pode iniciar o aplicativo:
+
+- **Para Android:**
+  ```bash
+  bun run android
+  ```
+- **Para iOS:**
+  ```bash
+  echa de usar, construída em cima do Reanimated.
+  ```
 - **`@react-native-async-storage/async-storage`**: Uma solução simples e eficaz para guardar dados localmente no aparelho. É perfeita para armazenar o estado da lista de tarefas, garantindo que nada seja perdido quando o aplicativo é fechado.
 - **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código.
 - **`expo-notifications`**: Utilizado para gerenciar notificações push no aplicativo. **Importante**: Este recurso funciona apenas nas versões mobile (iOS e Android) e não está disponível na versão web.

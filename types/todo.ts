@@ -17,4 +17,6 @@ export interface TodoContextType extends TodoState {
   toggleTask: (id: number) => Promise<void>;
   clearCompleted: () => Promise<void>;
   setTasks: (tasks: Task[]) => void;
+  undo: () => void;
+  redo: () => void;
 };

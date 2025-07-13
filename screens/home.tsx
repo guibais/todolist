@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { useTodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import { BlurView } from 'expo-blur';
 import { Button } from '../components/Button';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { useHistoryStore } from '../store/historyStore';
+
 import { Task } from 'types/todo';
 
 type TodoItemProps = {
@@ -23,9 +23,7 @@ const TodoItem = ({ item, toggleTask }: TodoItemProps) => {
   };
 
   return (
-    <TouchableOpacity
-      onPress={handleToggleTask}
-      className="mb-3">
+    <TouchableOpacity onPress={handleToggleTask} className="mb-3">
       <BlurView
         intensity={item.completed ? 20 : 40}
         tint={item.completed ? 'light' : 'dark'}
@@ -50,32 +48,9 @@ const TodoItem = ({ item, toggleTask }: TodoItemProps) => {
 };
 
 export default function Home() {
-  const { tasks, toggleTask, clearCompleted, setTasks } = useTodoContext();
-  const { present, setPresent, undo, redo } = useHistoryStore();
+  const { tasks, toggleTask, clearCompleted, undo, redo } = useTodoContext();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [height, setHeight] = useState(Dimensions.get('window').height);
-
-  const tasksRef = useRef(tasks);
-  const presentRef = useRef(present);
-  const setTasksRef = useRef(setTasks);
-  const setPresentRef = useRef(setPresent);
-
-  tasksRef.current = tasks;
-  presentRef.current = present;
-  setTasksRef.current = setTasks;
-  setPresentRef.current = setPresent;
-
-  useEffect(() => {
-    if (JSON.stringify(tasksRef.current) !== JSON.stringify(presentRef.current)) {
-      setPresentRef.current(tasksRef.current);
-    }
-  }, [tasks]);
-
-  useEffect(() => {
-    if (JSON.stringify(tasksRef.current) !== JSON.stringify(presentRef.current)) {
-      setTasksRef.current(presentRef.current);
-    }
-  }, [present]);
 
   useEffect(() => {
     const updateHeight = ({ window }: { window: { height: number } }) => setHeight(window.height);
@@ -100,7 +75,6 @@ export default function Home() {
   return (
     <SafeAreaView className="flex-1 bg-gray-900">
       <View style={{ height }}>
-        {/* Fixed Header */}
         <View className=" px-5 pb-3 pt-5">
           <Text className="text-4xl font-bold text-white">Suas Tarefas</Text>
         </View>
@@ -121,15 +95,12 @@ export default function Home() {
           />
         </View>
 
-        {/* Fixed Bottom Actions */}
         <View className="h-1/3 bg-gray-900 px-5 pb-5">
-          {/* Action Buttons */}
           <View className="mb-3">
             <Button title="Adicionar Tarefa" onPress={handleNavigateToModal} />
             <Button title="Limpar Concluídas" onPress={clearCompleted} variant="secondary" />
           </View>
 
-          {/* Undo/Redo Buttons */}
           <View className="flex-row justify-around">
             <TouchableOpacity
               onPress={undo}
