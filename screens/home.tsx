@@ -17,12 +17,14 @@ type TodoItemProps = {
 };
 
 const TodoItem = ({ item, toggleTask }: TodoItemProps) => {
+  const handleToggleTask = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    toggleTask(item.id);
+  };
+
   return (
     <TouchableOpacity
-      onPress={() => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        toggleTask(item.id);
-      }}
+      onPress={handleToggleTask}
       className="mb-3">
       <BlurView
         intensity={item.completed ? 20 : 40}
@@ -83,6 +85,10 @@ export default function Home() {
     };
   }, []);
 
+  const handleNavigateToModal = () => {
+    navigation.navigate('Modal');
+  };
+
   const renderTask = ({ item }: { item: Task }) => <TodoItem item={item} toggleTask={toggleTask} />;
 
   const renderEmptyComponent = () => (
@@ -119,7 +125,7 @@ export default function Home() {
         <View className="h-1/3 bg-gray-900 px-5 pb-5">
           {/* Action Buttons */}
           <View className="mb-3">
-            <Button title="Adicionar Tarefa" onPress={() => navigation.navigate('Modal')} />
+            <Button title="Adicionar Tarefa" onPress={handleNavigateToModal} />
             <Button title="Limpar Concluídas" onPress={clearCompleted} variant="secondary" />
           </View>
 
