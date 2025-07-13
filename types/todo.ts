@@ -10,5 +10,10 @@ export type TodoState = {
   toggleTask: (id: number) => void;
   clearCompleted: () => void;
   loadTasks: () => Promise<void>;
-  saveTasks: () => Promise<void>;
+};
+
+export type TodoContextType = {
+  addTask: (text: string) => Promise<void>;
+  toggleTask: (id: number) => Promise<void>;
+  clearCompleted: () => Promise<void>;
 };

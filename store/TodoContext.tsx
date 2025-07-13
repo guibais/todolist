@@ -8,14 +8,8 @@ import {
   sendTaskAddedNotification,
   triggerHapticFeedback,
 } from './store';
-import { Task, TodoState } from '../types/todo';
+import { Task, TodoContextType } from '../types/todo';
 import * as Haptics from 'expo-haptics';
-
-interface TodoContextType extends TodoState {
-  addTask: (text: string) => Promise<void>;
-  toggleTask: (id: number) => Promise<void>;
-  clearCompleted: () => Promise<void>;
-}
 
 export const TodoContext = createContext<TodoContextType>({} as TodoContextType);
 
@@ -31,20 +25,26 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
     loadTasks();
   }, [loadTasks]);
 
-  const addTask = useCallback(async (text: string) => {
-    const newTask = createTask(text);
-    const updatedTasks = [...tasks, newTask];
-    setTasks(updatedTasks);
-    await saveTasksToStorage(updatedTasks);
-    sendTaskAddedNotification(text);
-  }, [tasks]);
+  const addTask = useCallback(
+    async (text: string) => {
+      const newTask = createTask(text);
+      const updatedTasks = [...tasks, newTask];
+      setTasks(updatedTasks);
+      await saveTasksToStorage(updatedTasks);
+      sendTaskAddedNotification(text);
+    },
+    [tasks]
+  );
 
-  const toggleTask = useCallback(async (id: number) => {
-    const updatedTasks = toggleTaskCompletion(tasks, id);
-    setTasks(updatedTasks);
-    await saveTasksToStorage(updatedTasks);
-    triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Light);
-  }, [tasks]);
+  const toggleTask = useCallback(
+    async (id: number) => {
+      const updatedTasks = toggleTaskCompletion(tasks, id);
+      setTasks(updatedTasks);
+      await saveTasksToStorage(updatedTasks);
+      triggerHapticFeedback(Haptics.ImpactFeedbackStyle.Light);
+    },
+    [tasks]
+  );
 
   const clearCompleted = useCallback(async () => {
     const updatedTasks = filterCompletedTasks(tasks);
@@ -58,6 +58,7 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
     addTask,
     toggleTask,
     clearCompleted,
+    loadTasks,
   };
 
   return <TodoContext.Provider value={contextValue}>{children}</TodoContext.Provider>;
