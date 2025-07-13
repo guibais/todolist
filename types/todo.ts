@@ -16,4 +16,5 @@ export type TodoContextType = {
   addTask: (text: string) => Promise<void>;
   toggleTask: (id: number) => Promise<void>;
   clearCompleted: () => Promise<void>;
+  setTasks: (tasks: Task[]) => void;
 };

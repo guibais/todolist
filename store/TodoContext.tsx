@@ -59,6 +59,7 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
     toggleTask,
     clearCompleted,
     loadTasks,
+    setTasks,
   };
 
   return <TodoContext.Provider value={contextValue}>{children}</TodoContext.Provider>;
