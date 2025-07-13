@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useTodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import type { RootStackParamList } from '../types/navigation';
 import { BlurView } from 'expo-blur';
 import { Button } from '../components/Button';
 import { Ionicons } from '@expo/vector-icons';
@@ -48,7 +50,7 @@ const TodoItem = ({ item, toggleTask }: TodoItemProps) => {
 export default function Home() {
   const { tasks, toggleTask, clearCompleted, setTasks } = useTodoContext();
   const { present, setPresent, undo, redo } = useHistoryStore();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const tasksRef = useRef(tasks);
   const presentRef = useRef(present);
