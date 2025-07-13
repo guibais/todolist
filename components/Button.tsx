@@ -3,11 +3,11 @@ import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native';
 import { cn } from '../utils/utilities';
 import * as Haptics from 'expo-haptics';
 
-interface ButtonProps extends TouchableOpacityProps {
+type ButtonProps = TouchableOpacityProps & {
   title: string;
   variant?: 'primary' | 'secondary';
   className?: string;
-}
+};
 
 export function Button({ title, variant = 'primary', className, ...props }: ButtonProps) {
   const baseClasses = 'py-4 rounded-lg mb-3';

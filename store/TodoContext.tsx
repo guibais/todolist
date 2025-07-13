@@ -16,13 +16,13 @@ export const TodoContext = createContext<TodoContextType>({} as TodoContextType)
 
 export const TodoProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const { setPresent, undo, redo } = useHistoryStore();
+  const { setPresent, initializePresent, undo, redo } = useHistoryStore();
 
   const loadTasks = useCallback(async () => {
     const loadedTasks = await loadTasksFromStorage();
     setTasks(loadedTasks);
-    setPresent(loadedTasks);
-  }, [setPresent]);
+    initializePresent(loadedTasks);
+  }, [initializePresent]);
 
   useEffect(() => {
     loadTasks();
@@ -61,7 +61,6 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
 
   const handleUndo = useCallback(async () => {
     undo();
-    // Get the updated present state after undo
     const historyStore = useHistoryStore.getState();
     const newTasks = historyStore.present;
     setTasks(newTasks);
@@ -70,7 +69,6 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
 
   const handleRedo = useCallback(async () => {
     redo();
-    // Get the updated present state after redo
     const historyStore = useHistoryStore.getState();
     const newTasks = historyStore.present;
     setTasks(newTasks);

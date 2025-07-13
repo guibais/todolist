@@ -3,14 +3,15 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Task } from '../types/todo';
 
-interface HistoryState {
+type HistoryState = {
   past: Task[][];
   present: Task[];
   future: Task[][];
   setPresent: (tasks: Task[]) => void;
+  initializePresent: (tasks: Task[]) => void;
   undo: () => void;
   redo: () => void;
-}
+};
 
 export const useHistoryStore = create<HistoryState>()(
   persist(
@@ -20,11 +21,18 @@ export const useHistoryStore = create<HistoryState>()(
       future: [],
       setPresent: (tasks: Task[]) => {
         const { present, past } = get();
-        set({
-          past: [...past, present],
-          present: tasks,
-          future: [],
-        });
+        if (present.length > 0) {
+          set({
+            past: [...past, present],
+            present: tasks,
+            future: [],
+          });
+        } else {
+          set({ present: tasks });
+        }
+      },
+      initializePresent: (tasks: Task[]) => {
+        set({ present: tasks });
       },
       undo: () => {
         const { past, present, future } = get();

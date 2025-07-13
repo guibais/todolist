@@ -3,11 +3,11 @@ import { TextInput, TextInputProps } from 'react-native';
 import { cn } from '../utils/utilities';
 import * as Haptics from 'expo-haptics';
 
-interface InputProps extends TextInputProps {
+type InputProps = TextInputProps & {
   placeholder: string;
   value: string;
   className?: string;
-}
+};
 
 export function Input({ placeholder, value, onChangeText, className, ...props }: InputProps) {
   return (
