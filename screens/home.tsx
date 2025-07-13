@@ -1,5 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import { useTodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
@@ -74,25 +80,48 @@ export default function Home() {
     }
   }, [present]);
 
+  const renderTask = ({ item }: { item: Task }) => (
+    <TodoItem item={item} toggleTask={toggleTask} />
+  );
+
+  const renderEmptyComponent = () => (
+    <View className="mt-20 items-center justify-center">
+      <Text className="text-lg text-gray-400">Nenhuma tarefa ainda.</Text>
+    </View>
+  );
+
   return (
     <SafeAreaView className="flex-1 bg-gray-900">
-      <View className="flex-1 p-5">
-        <Text className="mb-5 text-4xl font-bold text-white">Suas Tarefas</Text>
-        <FlatList
-          data={tasks}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <TodoItem item={item} toggleTask={toggleTask} />}
-          ListEmptyComponent={() => (
-            <View className="mt-20 items-center justify-center">
-              <Text className="text-lg text-gray-400">Nenhuma tarefa ainda.</Text>
-            </View>
-          )}
-        />
-        <View className="mt-5">
+      {/* Fixed Header */}
+      <View className="px-5 pt-5 pb-3">
+        <Text className="text-4xl font-bold text-white">Suas Tarefas</Text>
+      </View>
+
+      {/* Scrollable Task List */}
+      <FlatList
+        data={tasks}
+        renderItem={renderTask}
+        keyExtractor={(item) => item.id.toString()}
+        ListEmptyComponent={renderEmptyComponent}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingBottom: 20,
+          flexGrow: tasks.length === 0 ? 1 : undefined,
+        }}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={true}
+      />
+
+      {/* Fixed Bottom Actions */}
+      <View className="px-5 pb-5 bg-gray-900">
+        {/* Action Buttons */}
+        <View className="mb-3">
           <Button title="Adicionar Tarefa" onPress={() => navigation.navigate('Modal')} />
           <Button title="Limpar Concluídas" onPress={clearCompleted} variant="secondary" />
         </View>
-        <View className="flex-row justify-around p-2">
+
+        {/* Undo/Redo Buttons */}
+        <View className="flex-row justify-around">
           <TouchableOpacity
             onPress={undo}
             className="flex-row items-center rounded-lg bg-gray-700 p-3">
