@@ -25,6 +25,10 @@ Para construir este app, utilizei algumas tecnologias e bibliotecas que consider
 - **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código.
 - **`expo-notifications`**: Utilizado para gerenciar notificações push no aplicativo. **Importante**: Este recurso funciona apenas nas versões mobile (iOS e Android) e não está disponível na versão web.
 
+## 🌐 Live Demo
+
+Você pode conferir a versão em produção do aplicativo web aqui: [https://todolist-btz.pages.dev](https://todolist-btz.pages.dev)
+
 ## 🚀 Instalação
 
 Para rodar este projeto no seu computador, siga estes passos:
