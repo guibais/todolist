@@ -14,6 +14,7 @@ Este é um aplicativo de lista de tarefas que criei, feito com React Native e Ex
 - **Histórico de estados**: Você pode desfazer e refazer ações, mantendo um controle do que foi feito.
 - Persistência de dados local.
 - Interface de usuário intuitiva e responsiva.
+- **Feedback Tátil (Haptics)**: Para uma experiência mais imersiva e responsiva, utilizei feedback tátil em interações chave, como ao concluir uma tarefa, dando uma sensação física de confirmação ao usuário.
 
 ## 🛠️ Escolhas Técnicas
 
