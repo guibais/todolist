@@ -1,12 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
 import { MotiView } from 'moti';
 import { TodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
@@ -66,7 +59,7 @@ export default function Modal() {
           intensity={40}
           tint="dark"
           style={{ borderRadius: 15, overflow: 'hidden' }}
-          className="w-full md:max-w-md md:mx-auto">
+          className="w-full md:mx-auto md:max-w-md">
           <View className="p-5">
             {loading ? (
               <View className="items-center justify-center py-10">

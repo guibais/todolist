@@ -31,6 +31,10 @@ Para construir este app, utilizei algumas tecnologias e bibliotecas que consider
 - **ESLint & Prettier**: Ferramentas essenciais para manter a qualidade do código.
 - **`expo-notifications`**: Utilizado para gerenciar notificações push no aplicativo. **Importante**: Este recurso funciona apenas nas versões mobile (iOS e Android) e não está disponível na versão web.
 
+## 🤝 Convenções de Desenvolvimento
+
+Para manter o código organizado e o histórico de commits claro, utilizamos [Semantic Commits](https://www.conventionalcommits.org/en/v1.0.0/). Isso significa que cada commit segue um padrão específico (ex: `feat: adiciona nova funcionalidade`, `fix: corrige bug`), o que facilita a compreensão das mudanças e a geração automática de changelogs.
+
 ## 🚀 Instalação
 
 Para rodar este projeto no seu computador, siga estes passos:

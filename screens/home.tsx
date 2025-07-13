@@ -1,14 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-  Platform,
-  Dimensions,
-} from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { useTodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
