@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
   SafeAreaView,
   TouchableOpacity,
   FlatList,
+  ScrollView,
+  Platform,
+  Dimensions,
 } from 'react-native';
 import { useTodoContext } from '../store/TodoContext';
 import { useNavigation } from '@react-navigation/native';
@@ -57,6 +60,7 @@ export default function Home() {
   const { tasks, toggleTask, clearCompleted, setTasks } = useTodoContext();
   const { present, setPresent, undo, redo } = useHistoryStore();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [height, setHeight] = useState(Dimensions.get('window').height);
 
   const tasksRef = useRef(tasks);
   const presentRef = useRef(present);
@@ -80,9 +84,15 @@ export default function Home() {
     }
   }, [present]);
 
-  const renderTask = ({ item }: { item: Task }) => (
-    <TodoItem item={item} toggleTask={toggleTask} />
-  );
+  useEffect(() => {
+    const updateHeight = ({ window }: { window: { height: number } }) => setHeight(window.height);
+    const dim = Dimensions.addEventListener('change', updateHeight);
+    return () => {
+      dim.remove();
+    };
+  }, []);
+
+  const renderTask = ({ item }: { item: Task }) => <TodoItem item={item} toggleTask={toggleTask} />;
 
   const renderEmptyComponent = () => (
     <View className="mt-20 items-center justify-center">
@@ -92,48 +102,51 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-900">
-      {/* Fixed Header */}
-      <View className="px-5 pt-5 pb-3">
-        <Text className="text-4xl font-bold text-white">Suas Tarefas</Text>
-      </View>
-
-      {/* Scrollable Task List */}
-      <FlatList
-        data={tasks}
-        renderItem={renderTask}
-        keyExtractor={(item) => item.id.toString()}
-        ListEmptyComponent={renderEmptyComponent}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingBottom: 20,
-          flexGrow: tasks.length === 0 ? 1 : undefined,
-        }}
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={true}
-      />
-
-      {/* Fixed Bottom Actions */}
-      <View className="px-5 pb-5 bg-gray-900">
-        {/* Action Buttons */}
-        <View className="mb-3">
-          <Button title="Adicionar Tarefa" onPress={() => navigation.navigate('Modal')} />
-          <Button title="Limpar Concluídas" onPress={clearCompleted} variant="secondary" />
+      <View style={{ height }}>
+        {/* Fixed Header */}
+        <View className=" px-5 pb-3 pt-5">
+          <Text className="text-4xl font-bold text-white">Suas Tarefas</Text>
         </View>
 
-        {/* Undo/Redo Buttons */}
-        <View className="flex-row justify-around">
-          <TouchableOpacity
-            onPress={undo}
-            className="flex-row items-center rounded-lg bg-gray-700 p-3">
-            <Ionicons name="arrow-undo" size={24} color="white" />
-            <Text className="ml-2 text-white">Desfazer</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={redo}
-            className="flex-row items-center rounded-lg bg-gray-700 p-3">
-            <Ionicons name="arrow-redo" size={24} color="white" />
-            <Text className="ml-2 text-white">Refazer</Text>
-          </TouchableOpacity>
+        <View className="flex-1">
+          <FlatList
+            data={tasks}
+            renderItem={renderTask}
+            keyExtractor={(item) => item.id.toString()}
+            ListEmptyComponent={renderEmptyComponent}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+              paddingBottom: 20,
+              flexGrow: 1,
+            }}
+            style={{ flex: 1, flexGrow: 1 }}
+            showsVerticalScrollIndicator={true}
+          />
+        </View>
+
+        {/* Fixed Bottom Actions */}
+        <View className="h-1/3 bg-gray-900 px-5 pb-5">
+          {/* Action Buttons */}
+          <View className="mb-3">
+            <Button title="Adicionar Tarefa" onPress={() => navigation.navigate('Modal')} />
+            <Button title="Limpar Concluídas" onPress={clearCompleted} variant="secondary" />
+          </View>
+
+          {/* Undo/Redo Buttons */}
+          <View className="flex-row justify-around">
+            <TouchableOpacity
+              onPress={undo}
+              className="flex-row items-center rounded-lg bg-gray-700 p-3">
+              <Ionicons name="arrow-undo" size={24} color="white" />
+              <Text className="ml-2 text-white">Desfazer</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={redo}
+              className="flex-row items-center rounded-lg bg-gray-700 p-3">
+              <Ionicons name="arrow-redo" size={24} color="white" />
+              <Text className="ml-2 text-white">Refazer</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
