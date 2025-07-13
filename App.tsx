@@ -5,6 +5,7 @@ import 'react-native-reanimated';
 import * as Notifications from 'expo-notifications';
 import { TodoProvider } from './store/TodoContext';
 import Navigation from './navigation';
+import { useEffect } from 'react';
 
 export default function App() {
   Notifications.setNotificationHandler({
@@ -12,6 +13,8 @@ export default function App() {
       shouldShowAlert: true,
       shouldPlaySound: false,
       shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
     }),
   });
 
@@ -26,7 +29,13 @@ export default function App() {
       alert('Failed to get push token for push notification!');
       return;
     }
+    const token = await Notifications.getExpoPushTokenAsync();
+    console.log(token);
   }
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, []);
 
   return (
     <TodoProvider>

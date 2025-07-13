@@ -33,7 +33,7 @@ export const useTodoStore = create<TodoState>((set, get) => ({
         title: 'Tarefa Adicionada!',
         body: `'${text}' foi adicionada à sua lista.`,
       },
-      trigger: null, // Show immediately
+      trigger: null,
     });
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   },
@@ -43,6 +43,13 @@ export const useTodoStore = create<TodoState>((set, get) => ({
     set({ tasks: updatedTasks });
     await get().saveTasks();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Tarefa Concluída!',
+        body: `'${get().tasks.find((task) => task.id === id)?.text}' foi concluída.`,
+      },
+      trigger: null,
+    });
   },
 
   clearCompleted: async () => {
@@ -50,6 +57,13 @@ export const useTodoStore = create<TodoState>((set, get) => ({
     set({ tasks: updatedTasks });
     await get().saveTasks();
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Tarefas Removidas!',
+        body: 'Todas as tarefas concluídas foram removidas.',
+      },
+      trigger: null,
+    });
   },
 
   loadTasks: async () => {
